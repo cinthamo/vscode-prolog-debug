@@ -1,8 +1,10 @@
 # Build steps
 
-## To build dist/debugAdapter.js
+## To build the server
 
-npx webpack
+- Run `npm run build-server`.
+- The server is in `dist/debugAdapter.js`.
+- Execute it with `node debugAdapter.js` in the machine where the prolog extension is running.
 
 ## To release the vscode extension
 
