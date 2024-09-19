@@ -2,8 +2,9 @@
 
 ## To build the server
 
-- Run `npm run build-server`.
-- The server is in `dist/debugAdapter.js`.
+- Run `nvm use 20.17.0`
+- Run `npm run build-server`
+- The server is in `dist/debugAdapter.js`
 - Execute it with `node debugAdapter.js` in the machine where the prolog extension is running.
 
 ## To release the vscode extension
@@ -14,5 +15,3 @@
 - To test it use 'Install from VSIX' in VS Code command palette (distribute this)
 
 - To publish `npm run publish` (but DON'T publish it to the store, it is an internal extension)
-
-(works with npm v20.17.0)

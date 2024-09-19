@@ -37,7 +37,7 @@
         "package": "vsce package",
         "publish": "vsce publish",
         "publish-pre-release": "vsce publish --pre-release",
-        "vscode:prepublish": "rimraf dist && npm run -S esbuild-base -- --minify",
+        "vscode:prepublish": "rimraf dist && npm run -S esbuild-base -- --minify && npx webpack",
         "test": "npm run typecheck"
     },
     "devDependencies": {
@@ -112,6 +112,11 @@
                             "type": "boolean",
                             "description": "Automatically stop after attach.",
                             "default": true
+                        },
+                        "program": {
+                            "type": "string",
+                            "description": "Dummy program to attach.",
+                            "default": true
                         }
                     }
                 }
@@ -120,6 +125,7 @@
                 "name": "Prolog Debugger",
                 "type": "prolog",
                 "request": "attach",
+                "program": "wait",
                 "stopOnEntry": true,
                 "writeLog": true,
                 "debugServer": 4711
@@ -131,6 +137,7 @@
                     "name": "Prolog Debugger",
                     "type": "prolog",
                     "request": "attach",
+                    "program": "wait",
                     "stopOnEntry": true,
                     "writeLog": true,
                     "debugServer": 4711
