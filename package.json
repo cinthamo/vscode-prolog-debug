@@ -143,7 +143,13 @@
                     "debugServer": 4711
                 }
             }]
-        }]
+        }],
+        "commands": [
+			{
+				"command": "run.debugAdapter",
+				"title": "Prolog Debugger: Run Debug Adapter"
+			}
+		]
     },
     "dependencies": {
         "bufferutil": "^4.0.8",

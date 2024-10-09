@@ -8,10 +8,22 @@
 'use strict';
 
 import * as vscode from 'vscode';
+import * as path from 'path';
 import { WorkspaceFolder, DebugConfiguration, ProviderResult, CancellationToken } from 'vscode';
 import { DebugSession } from './debugSession';
 
 export function activateDebug(context: vscode.ExtensionContext, factory?: vscode.DebugAdapterDescriptorFactory) {
+
+	// register command to run the debug adapter
+    context.subscriptions.push(vscode.commands.registerCommand('run.debugAdapter', async () => {
+        const terminal = vscode.window.createTerminal({
+			name: "Prolog Debug Adapter",
+			hideFromUser: false
+		});
+
+		let jsPath = path.join(__dirname, 'debugAdapter.js');
+        terminal.sendText(`node ${jsPath}`);
+    }));
 
 	// register a configuration provider for 'prolog' debug type
 	const provider = new MockConfigurationProvider();
