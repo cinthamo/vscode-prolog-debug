@@ -74,6 +74,7 @@ export class RuntimeSession extends EventEmitter {
 	private _variables: Map<number, Map<string, RuntimeVariable>> = new Map<number, Map<string, RuntimeVariable>>();
 
 	public setEngine(engine: EngineSocket) {
+		console.log('Starting debug session');
 		this._engine = engine;
 		engine.on('stop', (data: IEngineStopData) =>
 		{
@@ -130,6 +131,7 @@ export class RuntimeSession extends EventEmitter {
 
 	public async end(): Promise<void> {
 		await this._engine?.sendCommand('finish');
+		console.log('Ending debug session');
 	}
 	
 	public pause(threadId: number) {

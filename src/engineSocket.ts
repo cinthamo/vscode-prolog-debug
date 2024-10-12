@@ -28,13 +28,23 @@ export class EngineSocket extends EventEmitter {
     private _ws: WebSocket;
     private _started = false;
     private _saveEmit: {event: string, arg: any}[] = [];
+    private _writeDebugLog = false;
 
-    public constructor(ws: WebSocket) {
+    private debuglog(text: string) {
+        if (this._writeDebugLog) {
+            console.log(text);
+        }
+    }
+
+    public constructor(ws: WebSocket, writeDebugLog: boolean) {
         super();
         this._ws = ws;
+        this._writeDebugLog = writeDebugLog;
+        this.debuglog('EngineSocket created');
         ws.on('message', (bytesArray: ArrayBuffer) => {
             const decoder: TextDecoder = new TextDecoder('utf-8');
             var jsonString = decoder.decode(bytesArray);
+            this.debuglog(`Message received ${JSON.stringify(jsonString)}`);
             if (jsonString === 'ping')
             {
                 this._ws.send('pong');
@@ -46,6 +56,7 @@ export class EngineSocket extends EventEmitter {
             }
         });
         ws.on('close', () => {
+            this.debuglog('Close request received');
             this.safeEmit('close', 0);
         });
     }
@@ -60,6 +71,7 @@ export class EngineSocket extends EventEmitter {
 
     public start() {
         this._started = true;
+        this.debuglog('Start accepting messages');
         for (const {event, arg} of this._saveEmit) {
             this.emit(event, arg);
         }
@@ -67,15 +79,18 @@ export class EngineSocket extends EventEmitter {
     }
 
     public async sendCommand(name: string): Promise<void> {
+        this.debuglog(`Message sent ${name}`);
         await this._ws.send(name);
     }
 
     public sendCommandData(name: string, jsonObject: any) {
+        this.debuglog(`Message sent ${name} ${JSON.stringify(jsonObject)}`);
         jsonObject.message = name;
         this._ws.send(JSON.stringify(jsonObject));
     }
 
     public close() {
+        this.debuglog('EngineSocket closed');
         this._ws.close();
     }
 }
